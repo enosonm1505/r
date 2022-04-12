@@ -1,0 +1,13 @@
+stages:
+  - test
+run--basic-security-scans:
+  image: owasp/zap2docker-stable:2.9.0
+  stage: test
+  allow_failure: false
+  script:
+    - mkdir /zap/wrk
+    - /zap/zap-api-scan.py -i -r 'https://petstore.swagger.io/v1/swagger.json' -f openapi -r report.html
+    - cp /zap/wrk/report.html
+  artifacts:
+    paths:
+      - report.html
